@@ -13,7 +13,7 @@ setup(name='mailroom',
       author_email='matt_d_briggs@hotmail.com',
       license='MIT',
       packages=['mailroom'],
-      scripts=['bin/ui.py'],
+      scripts=['mailroom/ui.py'],
       package_data={'mailroom': ['data\\mailroomdata.json']},
       install_requires=[
           'PrettyTable',

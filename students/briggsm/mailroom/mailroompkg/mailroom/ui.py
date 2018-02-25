@@ -1,5 +1,6 @@
 import os
-import model as MD
+import mailroom as MR
+import mailroom.model as MD
 import logging
 import traceback
 
@@ -113,11 +114,11 @@ def mainloop(donor_records, filename):
 
 
 if __name__ == "__main__":
-    fileDir = os.path.dirname(os.path.realpath('__file__'))
-    logging.basicConfig(filename=fileDir + '\\data\\mailroom.log', level=logging.INFO)
+    logfile = os.path.dirname(MR.__file__) + '\\data\\mailroom.log'
+    logging.basicConfig(filename=logfile, level=logging.INFO)
     logging.info('\nStarted')
     try:
-        filename = fileDir + "\\data\\mailroomdata.json"
+        filename = os.path.dirname(MR.__file__) + "\\data\\mailroomdata.json"
         utility = MD.Utilities()
         donor_records = utility.open_json(filename)
         print ("Data loaded.")
@@ -126,3 +127,4 @@ if __name__ == "__main__":
     except FileNotFoundError:
         logging.info('End - FileNotFoundError')
         print ("Unable to find data file.")
+

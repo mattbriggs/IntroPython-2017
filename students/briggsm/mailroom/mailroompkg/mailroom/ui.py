@@ -1,6 +1,7 @@
 import os
 import mailroom as MR
 import mailroom.model as MD
+from mailroom_dbmodel import *
 import logging
 import traceback
 
@@ -74,6 +75,26 @@ def create_report(donor_records, filename):
     return True
 
 
+def save_to_db(donor_records, filename):
+    '''Save the donor records to SQLLite database.'''
+    logging.info("Savings database records to database.")
+    for record in donor_records.donors:
+        # try:
+        with database.transaction():
+            make_donor = Donor.create(
+                donor_id = record.Donor.donor_id,
+                first_name = record.Donor.first_name,
+                lastname_name = record.Donor.lastname_name,
+                email = record.Donor.email)
+            make_donor.save()
+            logging.info('Database add successful')
+                
+        # except Exception as e:
+        #     logging.info('Error creating = {}'.format(record.Donor.full_name))
+        #     logging.info(e)
+    return True
+
+
 def exit_mail(donor_records, filename):
     '''Save the data; close the app.'''
     logging.info('Exiting...')
@@ -91,9 +112,10 @@ def exit_mail(donor_records, filename):
 
 
 chooser = {
-    "1": ("Send a Thank You",send_thanks),
-    "2": ("Create a Report",create_report),
-    "3": ("Quit",exit_mail)
+    "1": ("Send a Thank You", send_thanks),
+    "2": ("Create a Report", create_report),
+    "3": ("Save records to database.", save_to_db),
+    "4": ("Quit", exit_mail)
     }
 
 
